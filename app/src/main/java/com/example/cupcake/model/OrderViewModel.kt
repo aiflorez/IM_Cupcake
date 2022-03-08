@@ -13,10 +13,6 @@ private const val PRICE_FOR_SAME_DAY_PICKUP = 3.00
 
 class OrderViewModel: ViewModel (){
 
-    init {
-        resetOrder()
-    }
-
     private val _quantity = MutableLiveData<Int>()
     val quantity: LiveData<Int> = _quantity
 
@@ -33,6 +29,10 @@ class OrderViewModel: ViewModel (){
 
     val dateOptions = getPickupOptions()
 
+    init {
+        resetOrder()
+    }
+
     fun setQuantity(numberCupcakes: Int) {
         _quantity.value = numberCupcakes
         updatePrice()
@@ -45,6 +45,13 @@ class OrderViewModel: ViewModel (){
     fun setDate(pickupDate: String) {
         _date.value = pickupDate
         updatePrice()
+    }
+
+    fun resetOrder() {
+        _quantity.value = 0
+        _flavor.value = ""
+        _date.value = dateOptions[0]
+        _price.value = 0.0
     }
 
     private fun updatePrice() {
@@ -64,18 +71,10 @@ class OrderViewModel: ViewModel (){
         val options = mutableListOf<String>()
         val formatter = SimpleDateFormat("E MMM d", Locale.getDefault())
         val calendar = Calendar.getInstance()
-        // Create a list of dates starting with the current date and the following 3 dates
         repeat(4) {
             options.add(formatter.format(calendar.time))
             calendar.add(Calendar.DATE, 1)
         }
         return options
-    }
-
-    fun resetOrder() {
-        _quantity.value = 0
-        _flavor.value = ""
-        _date.value = dateOptions[0]
-        _price.value = 0.0
     }
 }

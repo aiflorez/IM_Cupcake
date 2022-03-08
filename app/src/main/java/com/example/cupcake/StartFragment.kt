@@ -33,10 +33,6 @@ import com.example.cupcake.model.OrderViewModel
 class StartFragment : Fragment() {
 
     private val sharedViewModel: OrderViewModel by activityViewModels()
-
-    // Binding object instance corresponding to the fragment_start.xml layout
-    // This property is non-null between the onCreateView() and onDestroyView() lifecycle callbacks,
-    // when the view hierarchy is attached to the fragment.
     private var binding: FragmentStartBinding? = null
 
     override fun onCreateView(
@@ -53,9 +49,6 @@ class StartFragment : Fragment() {
         binding?.startFragment = this
     }
 
-    /**
-     * Start an order with the desired quantity of cupcakes and navigate to the next screen.
-     */
     fun orderCupcake(quantity: Int) {
         sharedViewModel.setQuantity(quantity)
         if (sharedViewModel.hasNoFlavorSet()) {
@@ -64,10 +57,6 @@ class StartFragment : Fragment() {
         findNavController().navigate(R.id.action_startFragment_to_flavorFragment)
     }
 
-    /**
-     * This fragment lifecycle method is called when the view hierarchy associated with the fragment
-     * is being removed. As a result, clear out the binding object.
-     */
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
